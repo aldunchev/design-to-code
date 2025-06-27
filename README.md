@@ -1,13 +1,15 @@
 # Figma Design Token & Component Extractor
 
-A Node.js + TypeScript CLI tool that extracts design tokens and structured component specifications from Figma files using the Figma REST API.
+Extract design tokens and component specifications from Figma files using both CLI and a beautiful web interface built with Next.js and shadcn/ui.
 
 ## Features
 
 - 🎨 Extract design tokens (colors, typography, spacing, effects, etc.)
 - 🧩 Extract component specifications with properties and variants
+- 🌐 **Beautiful Web Interface** - Modern UI built with Next.js and shadcn/ui
 - 📄 Generate structured JSON files ready for downstream automation
 - 🔗 Direct integration with Figma REST API
+- ⬇️ **Download Support** - Download extracted JSON files directly from the web interface
 - ⚡ Fast and efficient data processing
 
 ## Installation
@@ -32,7 +34,22 @@ FIGMA_API_TOKEN=your_figma_token_here
 
 ## Usage
 
-### Development Mode
+### Web Interface (Recommended)
+
+1. Start the web development server:
+```bash
+npm run dev:web
+```
+
+2. Open http://localhost:3000 in your browser
+
+3. Enter your Figma file key and click "Extract Design Data"
+
+4. Preview the extracted tokens and components
+
+5. Download the JSON files
+
+### CLI Mode
 
 ```bash
 # Extract from a Figma file
@@ -46,11 +63,14 @@ npm run dev abc123def456 ./my-tokens
 ### Production Build
 
 ```bash
-# Build the project
+# Build the project (includes both CLI and web)
 npm run build
 
-# Run the built version
+# Run CLI version
 npm start <figma-file-key> [output-directory]
+
+# Run production web server
+npm run start:web
 ```
 
 ## Getting Started

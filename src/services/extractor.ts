@@ -124,4 +124,64 @@ export class ExtractorService {
     const jsonContent = JSON.stringify(data, null, 2);
     await fs.writeFile(filePath, jsonContent, 'utf-8');
   }
+
+  // New method for web API - returns data instead of writing files
+  async extractDataFromFigma(fileKey: string): Promise<{
+    designTokens: any;
+    componentSpecs: any;
+  }> {
+    try {
+      console.log('🔄 Fetching Figma file data...');
+
+      // Fetch data from Figma API
+      const [fileData, stylesData] = await Promise.all([
+        this.figmaApi.getFile(fileKey),
+        this.figmaApi.getFileStyles(fileKey)
+      ]);
+
+      // Try to fetch file-specific components, but make it optional (may fail with 404 for some files)
+      let componentsData;
+      try {
+        componentsData = await this.figmaApi.getFileComponents(fileKey);
+      } catch (error) {
+        console.log('⚠️  Could not fetch file components (using document components instead)');
+        componentsData = { meta: { components: [] } };
+      }
+
+      // Try to fetch local variables
+      let variablesData;
+      try {
+        variablesData = await this.figmaApi.getLocalVariables(fileKey);
+        console.log(`🔧 Found ${Object.keys(variablesData.meta.variables || {}).length} local variables`);
+        console.log(`📚 Found ${Object.keys(variablesData.meta.variableCollections || {}).length} variable collections`);
+      } catch (error) {
+        console.log('⚠️  Could not fetch local variables (may not be available)');
+        variablesData = { meta: { variables: {}, variableCollections: {} } };
+      }
+
+      console.log('✅ Successfully fetched Figma data');
+      console.log(`📄 File: ${fileData.name}`);
+      console.log(`🎨 Styles found: ${stylesData.meta.styles.length}`);
+      console.log(`🧩 Components found: ${componentsData.meta.components.length}`);
+
+      // Parse design tokens
+      console.log('🔄 Parsing design tokens...');
+      const designTokens = this.tokenParser.parseTokens(fileData, stylesData, variablesData);
+
+      // Parse component specs
+      console.log('🔄 Parsing component specifications...');
+      const componentSpecs = this.componentParser.parseComponents(fileData, componentsData);
+
+      console.log('✅ Successfully parsed data');
+
+      return {
+        designTokens,
+        componentSpecs
+      };
+
+    } catch (error) {
+      console.error('❌ Error during extraction:', error);
+      throw error;
+    }
+  }
 }
