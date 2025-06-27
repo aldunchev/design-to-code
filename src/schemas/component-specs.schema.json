@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Component Specifications",
+  "type": "object",
+  "properties": {
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "variants": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "properties"
+        ]
+      }
+    },
+    "version": {
+      "type": "string"
+    },
+    "lastModified": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "components",
+    "version",
+    "lastModified"
+  ]
+}
