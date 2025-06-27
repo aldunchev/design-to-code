@@ -30,3 +30,17 @@
 - What I imagine is to have the program generate the JSON files based on AI or Figma API than once the user is happy with the output to be able to trigger Cursor from the UI and automatically pass the JSON to Cursor and Cursor to code the UI based on the JSON. - Cursor, may you advise if this is feasible and how technically can be achieved?
 
 Your App → OpenAI Vision API → JSON Generation → File Export → Cursor Integration
+
+app/
+  api/
+    extract/route.ts (existing)
+    extract-from-image/route.ts (new)
+  page.tsx (enhanced with tabs)
+
+components/
+  ImageUpload.tsx (new)
+  TabNavigation.tsx (new)
+
+lib/
+  openai.ts (new - OpenAI client setup)
+  image-utils.ts (new - image processing utilities)

@@ -1,52 +1,141 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Component Specifications",
+  "title": "Design System Component Specifications",
   "type": "object",
   "properties": {
-    "components": {
-      "type": "array",
-      "items": {
+    "elementStyling": {
+      "type": "object",
+      "description": "Element-specific styling rules with exact color mappings and contexts",
+      "additionalProperties": {
         "type": "object",
         "properties": {
-          "id": {
+          "background": {
             "type": "string"
           },
-          "name": {
+          "border": {
             "type": "string"
           },
-          "type": {
+          "borderRadius": {
             "type": "string"
           },
-          "properties": {
+          "shadow": {
+            "type": "string"
+          },
+          "text": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "icons": {
             "type": "object",
-            "additionalProperties": true
+            "properties": {
+              "fill": {
+                "type": "string"
+              },
+              "background": {
+                "type": "string"
+              }
+            }
           },
-          "variants": {
+          "hover": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": {
+              "type": "string"
+            }
           },
-          "description": {
-            "type": "string"
+          "pressed": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "focus": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "disabled": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           }
-        },
-        "required": [
-          "id",
-          "name",
-          "type",
-          "properties"
-        ]
+        }
       }
     },
-    "version": {
-      "type": "string"
+    "componentStates": {
+      "type": "object",
+      "description": "Component state variations and transitions",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
     },
-    "lastModified": {
-      "type": "string"
+    "gradients": {
+      "type": "object",
+      "description": "Gradient definitions with application contexts",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "direction": {
+            "type": "string"
+          },
+          "appliedTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "shadows": {
+      "type": "object",
+      "description": "Shadow definitions for different element types",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "doNotRules": {
+      "type": "object",
+      "description": "Rules to prevent styling misapplication",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
     }
   },
   "required": [
-    "components",
-    "version",
-    "lastModified"
+    "elementStyling"
   ]
 }
